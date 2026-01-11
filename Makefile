@@ -17,8 +17,11 @@ $(KERNEL): boot.o kernel.o
 boot.o: boot/boot.asm
 	$(AS) -f elf64 $< -o $@
 
-kernel.o: kernel/kernel.c
-	$(CC) $(CFLAGS) -c $< -o $@
+kernel.o: kernel/kernel.c kernel/vga.h
+	$(CC) $(CFLAGS) -c kernel/kernel.c -o kernel.o
+
+vga.o: kernel/vga.c kernel/vga.h
+	$(CC) $(CFLAGS) -c kernel/vga.c -o vga.o
 
 iso: $(ISO)
 

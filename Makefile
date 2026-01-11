@@ -30,6 +30,9 @@ vga.o: kernel/vga.c kernel/vga.h
 terminal.o: kernel/terminal.c kernel/terminal.h kernel/vga.h
 	$(CC) $(CFLAGS) -c kernel/terminal.c -o terminal.o
 
+longmode.o: boot/longmode.asm
+	$(AS) $(ASFLAGS) $< -o $@
+
 
 iso: $(ISO)
 

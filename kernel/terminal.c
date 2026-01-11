@@ -13,7 +13,7 @@ void term_putchar(char c) {
     vga_putc(c);
 }
 
-void term_write(const char* s); {
+void term_write(const char* s) {
     vga_write(s);
 }
 
@@ -21,3 +21,4 @@ void term_prompt(void) {
     vga_write(PROMPT);
 
 }
+

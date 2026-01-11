@@ -1,4 +1,6 @@
 BITS 32
+GLOBAL _start
+EXTERN long_mode_start
 
 section .multiboot
 align 8
@@ -6,28 +8,16 @@ mb2_header:
     dd 0xe85250d6
     dd 0
     dd header_end - mb2_header
-    dd -(0xe85250d6 + 0 + (header_end - mb2_header))
-
+    dd -(0xe85250d6 + (header_end - mb2_header))
     dw 0
     dw 0
     dd 8
 header_end:
 
-section .bss
-align 16
-stack_bottom:
-    resb 16384        ; 16 KB stack
-stack_top:
-
 section .text
-global _start
-extern kernel_main
-
 _start:
     cli
-    mov esp, stack_top    ; ⭐ SET STACK
-    call kernel_main
-
-hang:
+    call long_mode_start
+.hang:
     hlt
-    jmp hang
+    jmp .hang

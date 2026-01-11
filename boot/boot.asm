@@ -13,12 +13,19 @@ mb2_header:
     dd 8
 header_end:
 
+section .bss
+align 16
+stack_bottom:
+    resb 16384        ; 16 KB stack
+stack_top:
+
 section .text
 global _start
 extern kernel_main
 
 _start:
     cli
+    mov esp, stack_top    ; ⭐ SET STACK
     call kernel_main
 
 hang:

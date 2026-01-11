@@ -1,23 +1,35 @@
-CC = x86_64-elf-gcc
-AS = nasm
-LD = x86_64-elf-LD
+CROSS   ?= x86_64-elf-
+CC      := $(CROSS)gcc
+LD      := $(CROSS)ld
+AS      := nasm
 
-CFLAGS = -ffreestanding -O2 -Wall -Wextra -m64
-LDFLAGS = -T linker.ld -nostdlib
+CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m64
+LDFLAGS := -T linker.ld -nostdlib
 
-all: kernel.bin
+KERNEL  := kernel.bin
+ISO     := os.iso
 
-kernel.bin:
-	$(AS) -f elf64 boot/boot.asm -o boot.o
-	$(CC) $(CFLAGS) -c kernel/kernel.c -o kernel.o
-	$(LD) $(LDFLAGS) boot.o kernel.o -o kernel.bin
+all: $(KERNEL)
 
-iso:
+$(KERNEL): boot.o kernel.o
+	$(LD) $(LDFLAGS) boot.o kernel.o -o $(KERNEL)
+
+boot.o: boot/boot.asm
+	$(AS) -f elf64 $< -o $@
+
+kernel.o: kernel/kernel.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+iso: $(ISO)
+
+$(ISO): $(KERNEL) grub.cfg
 	mkdir -p iso/boot/grub
-	cp kernel.bin iso/boot/
-	cp grub.cfg iso/boot/grub/
-	grub-mkrescue -o os.iso iso
+	cp $(KERNEL) iso/boot/kernel.bin
+	cp grub.cfg iso/boot/grub/grub.cfg
+	grub-mkrescue -o $(ISO) iso
 
-run:
-	qemu-system-x86_64 -cdrom os.iso
+run: $(ISO)
+	qemu-system-x86_64 -cdrom $(ISO)
 
+clean:
+	rm -rf *.o iso $(ISO) $(KERNEL)

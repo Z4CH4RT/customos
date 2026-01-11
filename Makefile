@@ -16,7 +16,7 @@ all: $(KERNEL)
 
 
 $(KERNEL): boot.o longmode.o kernel.o vga.o terminal.o
-    $(LD) $(LDFLAGS) boot.o longmode.o kernel.o vga.o terminal.o -o $(KERNEL)
+	$(LD) $(LDFLAGS) boot.o longmode.o kernel.o vga.o terminal.o -o $(KERNEL)
 
 boot.o: boot/boot.asm
 	$(AS) -f elf32 $< -o $@

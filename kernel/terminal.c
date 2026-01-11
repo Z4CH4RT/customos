@@ -1,10 +1,10 @@
 #include "terminal.h"
 #include "vga.h"
 
-static const chat* PROMPT = "> ";
+static const char* PROMPT = "> ";
 
 void term_init(void) {
-    vga_unit();
+    vga_init();
     vga_write("LuisSYS\n");
     term_prompt();
 }
@@ -19,4 +19,5 @@ void term_write(const char* s); {
 
 void term_prompt(void) {
     vga_write(PROMPT);
+
 }

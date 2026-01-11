@@ -36,7 +36,7 @@ void vga_init(void) {
     vga_set_color(VGA_LIGHT_GREY, VGA_BLACK);
 
     for (size_t y = 0; y < VGA_HEIGHT; y++) {
-        for (size_t x = 0; < VGA_WIDTH; x++) {
+        for (size_t x = 0; x < VGA_WIDTH; x++) {
             vga_buffer[y * VGA_WIDTH + x] =
                 vga_entry(' ', color);
         }
@@ -70,3 +70,4 @@ void vga_write(const char* str) {
         vga_putc(str[i]);
 
 }
+

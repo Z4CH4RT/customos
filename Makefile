@@ -1,6 +1,6 @@
 CROSS   ?= x86_64-elf-
 CC      := $(CROSS)gcc
-LD      := $(CROSS)ld
+LD := x86_64-elf-ld
 AS      := nasm
 
 CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m32 -Ikernel

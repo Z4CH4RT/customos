@@ -3,8 +3,8 @@ CC      := $(CROSS)gcc
 LD      := $(CROSS)ld
 AS      := nasm
 
-CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m64
-LDFLAGS := -T linker.ld -nostdlib
+CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m32 -Ikernel
+LDFLAGS := -T linker.ld -nostdlib -m elf_i386
 
 KERNEL  := kernel.bin
 ISO     := os.iso

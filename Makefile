@@ -3,8 +3,10 @@ CC      := $(CROSS)gcc
 LD      := $(CROSS)ld
 AS      := nasm
 
-CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m32 -Ikernel
-LDFLAGS := -T linker.ld -nostdlib -m elf_i386
+CFLAGS  := -ffreestanding -O2 -Wall -Wextra -m64 -Ikernel -mcmodel=kernel
+ASFLAGS := -f elf64
+LDFLAGS := -T linker.ld -nostdlib
+
 
 
 KERNEL  := kernel.bin
@@ -12,8 +14,10 @@ ISO     := os.iso
 
 all: $(KERNEL)
 
-$(KERNEL): boot.o kernel.o vga.o terminal.o
-	$(LD) $(LDFLAGS) boot.o kernel.o vga.o terminal.o -o $(KERNEL)
+
+$(KERNEL): boot.o longmode.o kernel.o vga.o terminal.o
+    $(LD) $(LDFLAGS) boot.o longmode.o kernel.o vga.o terminal.o -o $(KERNEL)
+
 
 
 boot.o: boot/boot.asm

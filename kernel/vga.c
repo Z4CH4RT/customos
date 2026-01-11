@@ -1,4 +1,4 @@
-#include <vga.h>
+#include "vga.h"
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -68,4 +68,5 @@ void vga_putc(char c) {
 void vga_write(const char* str) {
     for (size_t i = 0; str[i]; i++)
         vga_putc(str[i]);
+
 }

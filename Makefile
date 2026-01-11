@@ -11,7 +11,7 @@ ISO     := os.iso
 
 all: $(KERNEL)
 
-$(KERNEL): boot.o kernel.o
+$(KERNEL): boot.o kernel.o vga.o
 	$(LD) $(LDFLAGS) boot.o kernel.o -o $(KERNEL)
 
 boot.o: boot/boot.asm

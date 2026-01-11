@@ -12,8 +12,9 @@ ISO     := os.iso
 
 all: $(KERNEL)
 
-$(KERNEL): boot.o kernel.o vga.o
-	$(LD) $(LDFLAGS) boot.o kernel.o vga.o -o $(KERNEL)
+$(KERNEL): boot.o kernel.o vga.o terminal.o
+	$(LD) $(LDFLAGS) boot.o kernel.o vga.o terminal.o -o $(KERNEL)
+
 
 boot.o: boot/boot.asm
 	$(AS) -f elf32 $< -o $@
@@ -23,6 +24,10 @@ kernel.o: kernel/kernel.c kernel/vga.h
 
 vga.o: kernel/vga.c kernel/vga.h
 	$(CC) $(CFLAGS) -c kernel/vga.c -o vga.o
+
+terminal.o: kernel/terminal.c kernel/terminal.h kernel/vga.h
+	$(CC) $(CFLAGS) -c kernel/terminal.c -o terminal.o
+
 
 iso: $(ISO)
 
